@@ -1,14 +1,16 @@
 const knex = require("../database/connection")
 const bcrypt = require("bcrypt")
+require('dotenv').config();
+
+let salt = parseInt(process.env.BCRYPT_SALT_ROUNDS);
+
 
 class User {
   async new(name, email, password) {
 
-    let hash = await bcrypt.hash(password, process.env.BCRYPT_SALT_ROUNDS);
+    let hash = await bcrypt.hash(password, salt);
 
-
-
-    knex.insert({name, email, password: hash, role: 0}).table("users")
+    await knex.insert({name, email, password: hash, role: 0}).table("users");
       
   }
 
@@ -107,9 +109,9 @@ class User {
     }
   }
 
-  async change(newPassword, id, token) {
+  async change(newPassword, id) {
 
-    let hash = await bcrypt.hash(newPassword, process.env.BCRYPT_SALT_ROUNDS);
+    let hash = await bcrypt.hash(newPassword, salt);
     await knex("users").where({id: id}).update({password: hash});
   }
 
