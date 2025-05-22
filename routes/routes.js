@@ -14,6 +14,7 @@ router.delete('/user/:id', AdminAuth, UserController.delete);
 router.post('/recoverypassword', UserController.recoveryPassword);
 router.post('/resetpassword', UserController.changePassword);
 router.post('/login', UserController.login);
+router.post('/verify', AdminAuth, HomeController.verify);
 
 
 

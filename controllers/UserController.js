@@ -140,12 +140,12 @@ class UserController{
 
   async login(req, res) {
     let { email, password } = req.body;
-    if (email == undefined) {
+    if (email == undefined || email == "" || email == ' ') {
       res.status(400);
       res.send("Email is required");
       return
     }
-    if (password == undefined) {
+    if (password == undefined || password == "" || password == ' ') {
       res.status(400);
       res.send("Password is required");
       return
@@ -165,7 +165,10 @@ class UserController{
       return
     }
     let token = jwt.sign({ email: user.email, role: user.role}, secret);
-    res.send("Welcome " + user.name + ", your token is: " + token);
+    res.json({
+      msg: "User logged in",
+      token: token
+    });
   }
 }
 
