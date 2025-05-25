@@ -63,11 +63,10 @@ class User {
     }
   }
 
-  async update(id, email, name) {
+  async update(id, email, name, role) {
     let user = await this.findById(id);
 
     if (user == undefined) {
-      
       return {status: false, error: "User not found"};
     }
 
@@ -77,10 +76,11 @@ class User {
       return {status: false, error: "Email already exists"};
     }
 
-      let editUser = {
-        email: email,
-        name: name,
-      }
+    let editUser = {
+      email: email,
+      name: name,
+      role: role
+    }
 
 
     try {

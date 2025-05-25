@@ -56,7 +56,7 @@ class UserController{
   }
 
   async update(req,res) {
-    let {id, email, name} = req.body;
+    let {id, email, name, role} = req.body;
 
     let userJson = await User.findById(id);
     if (userJson == undefined) {
@@ -71,14 +71,17 @@ class UserController{
       return
     }
 
-    if (email == undefined) {
+    if (email == undefined || email == "" || email == ' ') {
       email = userJson.email;
     }
-    if (name == undefined) {
+    if (name == undefined || name == "" || name == ' ') {
       name = userJson.name;
     }
+    if (role === undefined || role === "" || role === ' ') {      
+      role = userJson.role;
+    }
 
-    let user = await User.update(id, email, name);
+    let user = await User.update(id, email, name, role);
     if (user.status == false) {
       res.status(406);
       res.send(user.error);
